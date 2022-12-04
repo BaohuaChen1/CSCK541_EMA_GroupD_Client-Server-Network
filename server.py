@@ -58,6 +58,5 @@ def server_program():
            #connection.send(data.encode)
        # connection.close()
 
-
 if __name__ == '__main__':
     server_program()
