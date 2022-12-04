@@ -51,7 +51,6 @@ def client_program():
 
     client_socket.close()  # close the connection
 
-
 if __name__ == '__main__':
     creat_file()
     client_program()
