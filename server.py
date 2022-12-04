@@ -1,8 +1,5 @@
 import socket
 
-
-
-
 def server_program():
     # get the hostname
     host = socket.gethostname()
