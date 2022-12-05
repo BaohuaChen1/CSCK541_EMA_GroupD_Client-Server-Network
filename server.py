@@ -34,29 +34,6 @@ def server_program():
         #Closing the connection from the client.
         connection.close()
         print(f"[DISCONNECTED] {address} disconnected.")
-        #line = file.read(1024)
-        #while (line):
-            #connection.send(line)
-            #print("sent",repr(line))
-            #line = file.read(1024)
-        #file.close()
-        #print ("sent finished")
-        #if not data:
-        # if data is not received, then break
-            #break
-        #if configure == "print":
-            #print("from connected user: " + str(data))
-            # to print the contents of the the send itmes to a file.
-            #elif self.configure == "file":
-                #with open('',"w") as f:
-                    #f.write()
-                    #f.close()
-                    #print("file created!")
-                    #return
-            #data = "Data Received"
-            # send data to the client
-           #connection.send(data.encode)
-       # connection.close()
 
 if __name__ == '__main__':
     server_program()
