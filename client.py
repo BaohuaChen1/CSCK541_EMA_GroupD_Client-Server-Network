@@ -20,6 +20,7 @@ def creat_dictionary():
     prices = [100, 50, 150, 80, 120]
     dictionary_fruits_price = {fruit:price for (fruit, price) in zip(fruits, prices)}
     #print(dictionary_fruits_price)
+    
     # Serialize the dictionary
     my_pickled_object = pickle.dumps(dictionary_fruits_price)  # Pickling the object
     print(f"This is my pickled object:\n{my_pickled_object}\n")
@@ -82,7 +83,6 @@ def client_program():
             
     file.close()
     print ("sent finished")
-
     client_socket.close()  # close the connection
 
 
