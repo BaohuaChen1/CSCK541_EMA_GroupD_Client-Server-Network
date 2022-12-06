@@ -109,6 +109,6 @@ def client_program():
 
 
 if __name__ == '__main__':
-    #creat_file()
+    creat_file()
     client_program()
     #creat_dictionary()
