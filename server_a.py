@@ -21,16 +21,20 @@ def server_program():
         print("Got a connection from %s" % str(address))
         # receive the message from the client side and print on the screen
         msg = connection.recv(1024)
-
-        print('Received:' + msg.decode())
+        option = input("please choose your option and input: print or file ")
+        if option == "print":
+           print('Received:' + msg.decode())
         #file in current directory
-        check_file = Path('mytext.txt') 
+        if option == "file":
+           check_file = Path('mytext.txt') 
         # will create a new file, if it exists will append text
-        check_file.touch(exist_ok =True)
-        with open(check_file,'a+') as creat_file:
-           creat_file.write(msg.decode())
-           print("file created!")W
-           creat_file.close()
+           check_file.touch(exist_ok =True)
+           with open(check_file,'a+') as creat_file:
+              creat_file.write(msg.decode())
+              print("file created!")
+              creat_file.close()
+        #if option != "print" or "file":
+           # print("please input the choice of print or file only !")
 
 
         connection.close()
