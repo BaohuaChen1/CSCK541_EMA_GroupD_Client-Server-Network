@@ -7,12 +7,12 @@ from dicttoxml import dicttoxml
 
 def creat_file():
     #file in current directory
-    check_file = Path('mytext.txt')  
+    check_file = Path('task_for_creat_text_file.txt')  
     # will create a new file, if it exists will append text
     check_file.touch(exist_ok =True)
     # Append and Read (‘a+’),Write and Read (‘w+’)
     with open(check_file,'a+') as creat_file:
-       creat_file.write('This is the last line\n')
+       creat_file.write('the task is to : Create a text file and send it to a server\n')
     creat_file.close()
 
 def creat_dictionary():
@@ -82,24 +82,26 @@ def client_program():
     client_socket.connect((host, port))  # connect to the server
     format = "utf-8"
     
+    # TASK NUMBER ONE
+    # the task is to input a message from the client and send to the server
+    # and the server should have an option to choose from print and to creat a file
     message = input("please the content you want to send to ther server>>> ")
-
     client_socket.send(message.encode(format))
-
     
-    #file = open("mytext.txt", "r")
-     #data = file.read()
+    # TASK NUMBER TWO
+    # the task is to creat a text file from the client and send to the server
+    file = open("task_for_creat_text_file.txt", "r")
+    data = file.read()
     #Sending the filename to the server       
-     #client_socket.send("mytext.txt".encode(format))
-     #message = client_socket.recv(1024).decode(format)
-     #print(f"SERVER:{message}")
+    client_socket.send("mytext.txt".encode(format))
+    message = client_socket.recv(1024).decode(format)
+    print(f"SERVER:{message}")
     #Sending the file data to the server
-     #client_socket.send(data.encode(format))
-     #message = client_socket.recv(1024).decode(format)
-     #print(f"SERVER:{message}")
-            
-     #file.close()
-    print ("sent finished")
+    client_socket.send(data.encode(format))
+    message = client_socket.recv(1024).decode(format)
+    print(f"SERVER:{message}")    
+    file.close()
+    print ("the task of creating a file and send to the server: sent finished")
       
 
     client_socket.close()  
