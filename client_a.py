@@ -93,25 +93,10 @@ def pickle_function(content, file_name):
     file__binary.close()
     print(f"This is file_to_write_binary:\n{file_to_write_binary}\n")
 
-#def send_file_to_server(file_name, socket):
-    #file = open(file_name, "r")
-    #data = file.read()
 '''   
 
 
-    
-
- 
-
-    #send_file_to_server.data= creat_file()
-    #send_file_to_server()
-    
-
-
-
-
 if __name__ == '__main__':
-
 
     host = socket.gethostname()  # as both code is running on same pc
     port = 5050  # socket server port number
