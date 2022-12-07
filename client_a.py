@@ -112,6 +112,7 @@ def pickle_function(content, file_name):
 
 if __name__ == '__main__':
 
+
     host = socket.gethostname()  # as both code is running on same pc
     port = 5050  # socket server port number
     #Staring a TCP socket
@@ -161,3 +162,4 @@ if __name__ == '__main__':
 
        function.write_xml(filename)
     function.send_file_to_server(filename)
+
