@@ -3,11 +3,9 @@ import os
 from pathlib import Path
 import pickle
 import json
-from dicttoxml import dicttoxml
-
+from dict2xml import dict2xml
+from cryptography.fernet import Fernet
 class Function():
-
-
 
     def creat_file(self,filename):
     #file in current directory
@@ -18,17 +16,51 @@ class Function():
         with open(check_file,'a+') as creat_file:
              creat_file.write('the task is to : Create a text file and send it to a server\n')
              creat_file.close()
+    
+    # send only a string of text
+    def send_text_to_server(self,text):
+        socket_client.send(text.encode(format))
+
 
     def send_file_to_server(self,filename):
         file = open(filename,"r")
         data = file.read()
-
-    #Sending the file data to the server
+        #using the if statement, to check whether the client want to encrypt the file
+        config = input("please choose encryption or not,input yes or no:    ")
+        if config =="yes":
+            Function.encrypt_file(self,filename)
+            #messge ="the file is encrypted"
+            #socket_client.send(message.encode(format))
+            encrypt_msg ="encrypted"
+            socket_client.send(encrypt_msg.encode(format)) #send the encryption message to the server
+        if config =="no":
+            pass
+        
+        #Sending the file data to the server
         socket_client.send(data.encode(format))
-        message = socket_client.recv(1024).decode(format)
+        message = socket_client.recv(1024).decode(format) ###????????????
         print(f"SERVER:{message}")    
-    #file.close()
+        #file.close()
 
+    def encrypt_file(self,filename):  #file_to_encrypt,file_encrypted
+        #generating the keys:
+        key = Fernet.generate_key() ##########
+        # string the key in a file
+        with open('filekey.key', 'wb') as filekey:
+            filekey.write(key)
+        # opening the key
+        with open('filekey.key', 'rb') as filekey:
+            key = filekey.read()  
+        # using the generated key    
+        fernet = Fernet(key)   ##########
+        # opening the original file to encrypt
+        with open(filename, 'rb') as file:
+            original = file.read()
+        # encrypting the file
+        encrypted = fernet.encrypt(original)  ##########
+        # opening the file in write mode and writing the encrypted data
+        with open(filename, 'wb') as encrypted_file:
+            encrypted_file.write(encrypted)
 
     def creat_dictionary(self):
         fruits = ["apple", "banana", "cherry", "pear", "avocado"]
@@ -41,6 +73,7 @@ class Function():
     def write_binary(self,filename):
         file_to_write_binary = open(filename, "wb")
         dictionary_to_write_binary=pickle.dump(self.dictionary_fruits_price,file_to_write_binary)
+        #file_to_write_binary.write(dictionary_to_write_binary)
         file_to_write_binary.close()
         print(f"This is file_to_write_binary:\n{dictionary_to_write_binary}\n")
     
@@ -53,7 +86,8 @@ class Function():
 
     def write_xml(self,filename):
         file_to_write_xml = open(filename, "w")
-        dictionary_to_write_xml = dicttoxml(self.dictionary_fruits_price,file_to_write_xml)  
+        dictionary_to_write_xml = dict2xml(self.dictionary_fruits_price,file_to_write_xml)  
+        file_to_write_xml.write(str(dictionary_to_write_xml))
         file_to_write_xml.close()
         print(f"This is file_to_write_XML:\n{dictionary_to_write_xml}\n")
 
@@ -134,17 +168,19 @@ if __name__ == '__main__':
     function.creat_dictionary()
     if config =="binary":
        filename ="dictionary.pickle"
-       
+       function.send_text_to_server(filename) #send the fileanme to the server
        function.write_binary(filename)
 
     if config =="json":
        filename ="dictionary.json"
-
+       function.send_text_to_server(filename) #send the fileanme to the server
        function.write_json(filename)
 
     if config =="xml":
        filename ="dictionary.xml"
-
+       function.send_text_to_server(filename) #send the fileanme to the server
        function.write_xml(filename)
     function.send_file_to_server(filename)
+
+    # should send the file name and also, encryption or not to the server.
 
