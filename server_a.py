@@ -3,7 +3,7 @@ from pathlib import Path
 from cryptography.fernet import Fernet
 import client_a
 import pickle
-from functions import decrypt_file,deserialize
+from functions import decrypt_file,deserialize,load_json
 
 def server_program():
     # get the hostname
@@ -42,7 +42,7 @@ def server_program():
         ##########################
         #######################
         if encrypt_msg == b' the file has been encrypted!':
-            decrypt_file(rec_filename)
+            dec_data = decrypt_file(rec_filename)
             print("decryption completed")
            
         # to check if the file type is .pickle, then need to run pickle.load()
@@ -50,8 +50,12 @@ def server_program():
         if rec_filename == "dictionary_binary.pickle":
            file_data = deserialize(rec_filename)
            #print("deserialize completed")
-           
- 
+
+        if rec_filename == "dictionary_json.json":
+           file_data = load_json(rec_filename) 
+        
+        if rec_filename == "dictionary_xml.xml":
+            file_data = str(dec_data)
         # choose to print or save on a file
         option = input("please choose your option and input: print or file ")
         if option == "print":
