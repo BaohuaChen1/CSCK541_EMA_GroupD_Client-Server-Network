@@ -17,7 +17,7 @@ def creat_file(filename): #unittest passed
 
 def creat_dictionary(fruit_names,item_prices): #unittest passed
         seri_content = {fruit:price for (fruit, price) in zip(fruit_names, item_prices)}
-        print("dictionary conten:   ", seri_content)
+        print("dictionary content:   ", seri_content)
         return seri_content
 
 def serialize(seri_content,seri_file):
@@ -40,7 +40,7 @@ def dump_json(seri_content,seri_file):
     file_to_write.close()
 
 def load_json(seri_content):
-    file_to_read= open(seri_content,"w")
+    file_to_read= open(seri_content,"r")
     dictionary_load_json = json.load(file_to_read)
     file_to_read.close()
     return dictionary_load_json
@@ -108,7 +108,14 @@ def send_file_to_server(filename,socket_name,format_name):
         print(f"SERVER:{message}")    
         #file.close()
 
-
+def send_to_server(filename,socket_name,format_name):
+        file = open(filename,"r")
+        #Sending the file data to the server
+        data = file.read()
+        socket_name.send(data.encode(format_name))
+        #message = socket_name.recv(1024).decode(format_name) 
+        #print(f"SERVER:{message}")    
+        #file.close()
 
 
 

@@ -4,7 +4,7 @@ import pickle
 import json
 from dict2xml import dict2xml
 from cryptography.fernet import Fernet
-from functions import creat_dictionary,serialize,dump_json,dict_2_xml,send_text_to_server,send_file_to_server
+from functions import creat_dictionary,serialize,dump_json,dict_2_xml,send_text_to_server,send_file_to_server,creat_file,send_to_server
 
 
 if __name__ == '__main__':
@@ -26,15 +26,15 @@ if __name__ == '__main__':
     # TASK NUMBER ONE
     # the task is to input a message from the client and send to the server
     # and the server should have an option to choose from print and to creat a file
-    #message = input("please the content you want to send to ther server>>> ")
-    #socket_client.send(message.encode(format))
+    message = input("task 1: please input the content you want to send to ther server>>> ")
+    socket_client.send(message.encode(format))
 
     # TASK NUMBER TWO
     # the task is to creat a text file from the client and send to the server
-    #filename = "TASK NUMBER TWO:creat a text file"
-    #print("filename is", filename)
-    #function.creat_file(filename)
-    #function.send_file_to_server(filename)
+    message = input("task 2: creat a text file from the client and send to the server, input input the file name you want:>>> ")
+    creat_file_name = message
+    creat_file(creat_file_name)
+    send_to_server(creat_file_name,socket_client,format)
 
 
     # TASK NUMBER THREE
@@ -43,26 +43,26 @@ if __name__ == '__main__':
     #to one of the following: binary, JSON and XML.
  
 
-
-    config = input("please input the method of serialization: binary, json, xml    ")
-    # creat a new dictionary
     fruit_names = ["apple", "banana", "cherry", "pear", "avocado"]
     item_prices = [100, 50, 150, 80, 120]
     dic = creat_dictionary(fruit_names,item_prices)
+    config = input("please input the method of serialization: binary, json, xml    ")
+    # creat a new dictionary
+    
 
     if config =="binary":
        file_name ="dictionary_binary.pickle"  ###############?????
        send_text_to_server(file_name,socket_client,format) #send the fileanme to the server
        serialize(seri_file=file_name, seri_content=dic)
-
+       send_file_to_server(file_name,socket_client,format)
     if config =="json":
        file_name ="dictionary_json.json"
        send_text_to_server(file_name,socket_client,format) #send the fileanme to the server
        dump_json(seri_file=file_name,seri_content=dic)
-
+       send_file_to_server(file_name,socket_client,format)
     if config =="xml":
        file_name ="dictionary_xml.xml"
        send_text_to_server(file_name,socket_client,format)#send the fileanme to the server
        dict_2_xml(seri_file=file_name,seri_content=dic)
-    
-    send_file_to_server(file_name,socket_client,format) # sometimes, filename is not defined
+       send_file_to_server(file_name,socket_client,format)
+     
