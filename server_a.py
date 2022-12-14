@@ -3,6 +3,7 @@ from pathlib import Path
 from cryptography.fernet import Fernet
 import client_a
 import pickle
+import time
 from functions import decrypt_file,deserialize,load_json,creat_file
 
 def server_program():
@@ -11,7 +12,7 @@ def server_program():
     # initiate port number
     port = 5050
     #creat the socket isntance
-    server_socket = socket.socket() 
+    server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM) 
     #bind the ip address and the port together
     server_socket.bind((host, port)) 
     # configure how many client the server can listen simultaneously
@@ -31,7 +32,7 @@ def server_program():
         # receive the task 2:
         rec_2 = connection.recv(1024)
         print("receive from task 2:", rec_2)
-        option = input("please choose your option and input: print or file ")
+        option = input("task 2: please choose your option and input: print or file ")
         if option == "print":
            print(rec_2)
         #file in current directory
@@ -47,7 +48,7 @@ def server_program():
         # receive the filename
         rec_filename = connection.recv(1024).decode(format)
         print(f"[RECV task 3] Received the filename, the filename is:", rec_filename)
-
+        time.sleep(0.01)
         # to check if the file is encrypted, if yes, it would receive the following message
         encrypt_msg=connection.recv(1024)
         print(f"[RECV task 3] Received from client, :  ", encrypt_msg)
@@ -55,29 +56,29 @@ def server_program():
         # recive the file data
         file_data = connection.recv(1024)
 
-        # decrypt the information #### convert to importing using the def function.
-        ############################
-        ############################
-        ##########################
-        #######################
-        if encrypt_msg == b' the file has been encrypted!':
-            dec_data = decrypt_file(rec_filename)
-            print("decryption completed")
-           
-        # to check if the file type is .pickle, then need to run pickle.load()
+        # decrypt the file
+        option_decrypt = input("Do you need to decrypt the file? please input yes or no ")
+        if option_decrypt == "yes":
+            # to check only the encrypted file needs to be decrypted
+            if encrypt_msg =="encrypted":
+                dec_data = decrypt_file(rec_filename)
+                print("decryption completed")
+            else:
+                print("the file DOES NOT need to be decrypted!")  
 
-            if rec_filename == "dictionary_binary.pickle":
-               file_data = deserialize(rec_filename)
+        # to check if the file type is .pickle, then need to run pickle.load()
+        if rec_filename == "dictionary_binary.pickle":
+            file_data = deserialize(rec_filename)
            #print("deserialize completed")
 
-            if rec_filename == "dictionary_json.json":
-               file_data = load_json(rec_filename) 
+        if rec_filename == "dictionary_json.json":
+            file_data = load_json(rec_filename) 
         
-            if rec_filename == "dictionary_xml.xml":
+        if rec_filename == "dictionary_xml.xml":
                #print(dec_data)
-               file_data = dec_data    ###################returns none
+            file_data = dec_data    ###################returns none
         # choose to print or save on a file
-        option = input("please choose your option and input: print or file ")
+        option = input("task 3: please choose your option and input: print or file ")
         if option == "print":
            print(file_data)
         #file in current directory

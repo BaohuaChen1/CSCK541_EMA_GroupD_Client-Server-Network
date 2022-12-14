@@ -42,13 +42,19 @@ if __name__ == '__main__':
     #With the dictionary, the user should be able to set the pickling format 
     #to one of the following: binary, JSON and XML.
  
-
+    # creat a new dictionary
     fruit_names = ["apple", "banana", "cherry", "pear", "avocado"]
     item_prices = [100, 50, 150, 80, 120]
     dic = creat_dictionary(fruit_names,item_prices)
-    config = input("please input the method of serialization: binary, json, xml    ")
-    # creat a new dictionary
-    
+
+    formats = ['binary', 'json', 'xml']
+    while True:
+         config = input("task 3: please input the method of serialization: binary,json, xml   ")    
+         if config in formats:
+            break  
+         else:
+            print("plese input the correct formats:")
+         continue
 
     if config =="binary":
        file_name ="dictionary_binary.pickle"  ###############?????

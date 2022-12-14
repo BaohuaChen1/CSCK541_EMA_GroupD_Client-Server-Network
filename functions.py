@@ -97,15 +97,16 @@ def send_file_to_server(filename,socket_name,format_name):
              encrypt_file(filename)
              #messge ="the file is encrypted"
              #socket_client.send(message.encode(format))
-             encrypt_msg =" the file has been encrypted!"
+             encrypt_msg ="encrypted"
              socket_name.send(encrypt_msg.encode(format_name))
         if config =="no":
-            pass
+             encrypt_msg ="Not encrypted"
+             socket_name.send(encrypt_msg.encode(format_name))
         #Sending the file data to the server
         data = file.read()
         socket_name.send(data.encode(format_name))
-        message = socket_name.recv(1024).decode(format_name) 
-        print(f"SERVER:{message}")    
+        #message = socket_name.recv(1024).decode(format_name) 
+        #print(f"SERVER:{message}")    
         #file.close()
 
 def send_to_server(filename,socket_name,format_name):
