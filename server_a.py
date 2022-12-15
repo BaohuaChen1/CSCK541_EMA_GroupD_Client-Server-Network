@@ -45,53 +45,85 @@ def server_program():
               print("file created!, please check the file name: sever_received_infomation")
               creat_file.close()
         # receive the task 3:
-        # receive the filename
-        rec_filename = connection.recv(1024).decode(format)
-        print(f"[RECV task 3] Received the filename, the filename is:", rec_filename)
-        time.sleep(0.01)
-        # to check if the file is encrypted, if yes, it would receive the following message
-        encrypt_msg=connection.recv(1024)
-        print(f"[RECV task 3] Received from client, :  ", encrypt_msg)
 
-        # recive the file data
-        file_data = connection.recv(1024)
-
-        # decrypt the file
-        option_decrypt = input("Do you need to decrypt the file? please input yes or no ")
-        if option_decrypt == "yes":
-            # to check only the encrypted file needs to be decrypted
-            if encrypt_msg =="encrypted":
-                dec_data = decrypt_file(rec_filename)
-                print("decryption completed")
+        while True:
+            rec_msg = connection.recv(1024).decode(format)  ############### if the client send the file name ,then it wouldn't execute the following command
+            if rec_msg =="exit":
+               server_socket.close()
+               break
             else:
-                print("the file DOES NOT need to be decrypted!")  
+               # receive the filename
+               #rec_filename = connection.recv(1024).decode(format)
+               rec_filename = rec_msg
+               print(f"[RECV task 3] Received the filename, the filename is:", rec_filename)
+               time.sleep(0.01)
+               # to check if the file is encrypted, if yes, it would receive the following message
+               encrypt_msg=connection.recv(1024)
+               print(f"[RECV task 3] Received from client, :  ", encrypt_msg)
 
-        # to check if the file type is .pickle, then need to run pickle.load()
-        if rec_filename == "dictionary_binary.pickle":
-            file_data = deserialize(rec_filename)
-           #print("deserialize completed")
+               # recive the file data
+               file_data = connection.recv(1024)
 
-        if rec_filename == "dictionary_json.json":
-            file_data = load_json(rec_filename) 
-        
-        if rec_filename == "dictionary_xml.xml":
-               #print(dec_data)
-            file_data = dec_data    ###################returns none
-        # choose to print or save on a file
-        option = input("task 3: please choose your option and input: print or file ")
-        if option == "print":
-           print(file_data)
-        #file in current directory
-        if option == "file":
-           check_file = Path('sever_received_infomation.txt') 
-        # will create a new file, if it exists will append text
-           check_file.touch(exist_ok =True)
-           with open(check_file,'a+') as creat_file:
-              creat_file.write(str(file_data))
-              print("file created!, please check the file name: sever_received_infomation")
-              creat_file.close()
+               # decrypt the file 
+               option_decrypt = input("Do you need to decrypt the file? please input yes or no ")
+               # to check only the encrypted file needs to be decrypted
+               if option_decrypt == "yes":
+                    dec_data = decrypt_file(rec_filename)
+                    print("decryption completed")
+                     #else:
+                        #print("the file DOES NOT need to be decrypted!")  
+               
+               while True:
+                     formats = ['binary', 'json', 'xml',"exit"]
+                     deseri = input("task 3: please input the format of deserialization: binary,json, xml, or exit:")    
+                     if deseri in formats:
+                        break  
+                     else:
+                        print("plese input the correct formats:")
+                     continue
+               # to check if the file type is .pickle, then need to run pickle.load()
+               if deseri == "binary":
+                     file_data = deserialize(rec_filename)
+                  #print("deserialize completed")
+
+               if deseri == "json":
+                     file_data = load_json(rec_filename) 
+               
+               if deseri== "xml":
+                        #print(dec_data)
+                     if encrypt_msg =="encrypted":
+                        file_data = dec_data    ###################returns none???????????? need to check the funciton, if it returns the file's content
+               # choose to print or save on a file
+               option = input("task 3: please choose your option and input: print or file ")
+               if option == "print":
+                  print(file_data)
+               #file in current directory
+               if option == "file":
+                  check_file = Path('sever_received_infomation.txt') 
+               # will create a new file, if it exists will append text
+                  check_file.touch(exist_ok =True)
+                  with open(check_file,'a+') as creat_file:
+                     creat_file.write(str(file_data))
+                     print("file created!, please check the file name: sever_received_infomation")
+                     creat_file.close()
+            continue
+            
+          
 
 
 if __name__ == '__main__':
     server_program()
     
+
+'''
+               # decrypt the file 
+               option_decrypt = input("Do you need to decrypt the file? please input yes or no ")
+               ################# if it's not decrypted, then input yes, it cannto decry the file.
+               if option_decrypt == "yes":        
+                     # to check only the encrypted file needs to be decrypted
+                     if encrypt_msg =="encrypted":
+                        dec_data = decrypt_file(rec_filename)
+                        print("decryption completed")
+                     else:
+                        print("the file DOES NOT need to be decrypted!")  
+'''

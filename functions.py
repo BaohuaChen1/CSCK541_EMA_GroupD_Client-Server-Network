@@ -46,10 +46,15 @@ def load_json(seri_content):
     return dictionary_load_json
 
 def dict_2_xml(seri_content,seri_file):
-    file_to_read= open(seri_file,"w") # with open('dico.xml', 'w') as f:
-    dictionary_dict2xml = dict2xml(seri_content,seri_file)
-    file_to_read.write(str(dictionary_dict2xml))
-    file_to_read.close()
+    with open(seri_file, 'a+') as file_to_read:
+        dictionary_dict2xml = dict2xml(seri_content,seri_file)
+    with open(seri_file,'w+') as file_to_read:
+        file_to_read.write(dictionary_dict2xml)
+
+
+    
+
+
     
 def send_text_to_server(text,socket_name,format_name):
         socket_name.sendall(text.encode(format_name))  #socket_client
@@ -87,7 +92,7 @@ def decrypt_file(filename):
         # opening the file in write mode and writing the decrypted data
         with open(filename, 'wb') as dec_file:
             dec_file.write(decrypted)
-            
+        return dec_file
 
 def send_file_to_server(filename,socket_name,format_name):
         file = open(filename,"r")
