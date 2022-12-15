@@ -1,6 +1,9 @@
 import socket
 import os
 from pathlib import Path
+import pickle
+import json
+from dicttoxml import dicttoxml
 
 def creat_file():
     #file in current directory
@@ -12,6 +15,50 @@ def creat_file():
        creat_file.write('This is the last line\n')
     creat_file.close()
 
+def creat_dictionary():
+    fruits = ["apple", "banana", "cherry", "pear", "avocado"]
+    prices = [100, 50, 150, 80, 120]
+    dictionary_fruits_price = {fruit:price for (fruit, price) in zip(fruits, prices)}
+    #print(dictionary_fruits_price)
+    
+    # Serialize the dictionary
+    my_pickled_object = pickle.dumps(dictionary_fruits_price)  # Pickling the object
+    print(f"This is my pickled object:\n{my_pickled_object}\n")
+    # Deserialize the dictionary
+    my_unpickled_object = pickle.loads(my_pickled_object)  # Unpickling the object
+    print(f"This is a_dict of the unpickled object:\n{my_unpickled_object}\n")
+    # write binary
+  
+    file_to_write_binary = open("dictionary.pickle", "wb")
+    pickle.dump(dictionary_fruits_price,file_to_write_binary)
+    file_to_write_binary.close()
+    # read binary
+    file_to_read_binary= open("dictionary.pickle","rb")
+    dictionary_to_read_binary = pickle.load(file_to_read_binary)
+    file_to_read_binary.close()
+    print(f"This is file_to_read_binary:\n{dictionary_to_read_binary}\n")
+
+
+    my_json_object = json.dumps(dictionary_fruits_price)  
+    print(f"This is my json object:\n{my_json_object}\n")
+
+    my_unjson_object = json.loads(my_json_object)  
+    print(f"This is a_dict of the unjson object:\n{my_unjson_object}\n")
+
+    # write json
+  
+    file_to_write_json = open("dictionary.json", "w")
+    json.dump(dictionary_fruits_price,file_to_write_json)
+    file_to_write_json.close()
+    # read json
+    file_to_read_json= open("dictionary.json","r")
+    dictionary_to_read_json = json.load(file_to_read_json)
+    file_to_read_json.close()
+    print(f"This is file_to_read_json:\n{dictionary_to_read_json}\n")
+
+    # Serialize Python dictionary to XML
+    dictionary_xml = dicttoxml(dictionary_fruits_price)  
+    print(f"Serialize Python dictionary to XML:\n{dictionary_xml}\n")
 
 def client_program():
     host = socket.gethostname()  # as both code is running on same pc
@@ -23,11 +70,6 @@ def client_program():
     format = "utf-8"
     
 
-    #message = input(" -> ")  # take input
-
-   # while message.lower().strip() != 'bye':
-        #if message.lower().strip() == 'send file':
-           # Opening and reading the file data. 
     file = open("mytext.txt", "r")
     data = file.read()
     #Sending the filename to the server       
@@ -41,14 +83,6 @@ def client_program():
             
     file.close()
     print ("sent finished")
-        #else:
-            #client_socket.send(message.encode())  # send message
-            #data = client_socket.recv(1024).decode()  # receive response
-
-            #print('Received message from server: ' + data)  # show in terminal
-
-            #message = input(" input the message-> ")  # again take input
-
     client_socket.close()  # close the connection
 
 

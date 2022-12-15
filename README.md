@@ -1,5 +1,5 @@
 # client-server-network
-
+the codes can be run on the same machine:
 1 to open the comand prompt
 
 2 to run the server.py, type:
