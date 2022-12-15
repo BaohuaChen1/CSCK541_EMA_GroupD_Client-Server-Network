@@ -39,7 +39,7 @@ if __name__ == '__main__':
     value_item = ['TeamD', 'SoftwareDevelopment', "client server network"]
     dic = creat_dictionary(key_item, value_item)
 
-    print('This dictionary is for demonstration purposes:')
+    print('This dictionary is for demonstration purpose:')
 
    
     while True:
@@ -57,17 +57,17 @@ if __name__ == '__main__':
          if config =="binary":
             file_name ="dictionary_binary.pickle"  #define the file name
             send_text_to_server(file_name,socket_client,format) #send the fileanme to the server
-            serialize(seri_file=file_name, seri_content=dic) # serialize the file
+            serialize(seri_file=file_name, seri_content=dic) # serialize the file with pickle
             send_file_to_server(file_name,socket_client,format)  # send the file to the server
          if config =="json":
             file_name ="dictionary_json.json"
             send_text_to_server(file_name,socket_client,format) #send the fileanme to the server
-            dump_json(seri_file=file_name,seri_content=dic)
+            dump_json(seri_file=file_name,seri_content=dic) # serialize the file with json
             send_file_to_server(file_name,socket_client,format)
          if config =="xml":
             file_name ="dictionary_xml.xml"
             send_text_to_server(file_name,socket_client,format)#send the fileanme to the server
-            dict_2_xml(seri_file=file_name,seri_content=dic)
+            dict_2_xml(seri_file=file_name,seri_content=dic)  # serialize the file with xml
             send_file_to_server(file_name,socket_client,format)
          if config == "exit":
             send_text_to_server("exit",socket_client,format)#send the text of "exit" to the server

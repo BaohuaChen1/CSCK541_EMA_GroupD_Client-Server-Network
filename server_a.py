@@ -31,7 +31,7 @@ def server_program():
 
         # receive the task 2:
         rec_2 = connection.recv(1024)
-        print("receive from task 2:", rec_2)
+        print("receive from task 2, the content is:", rec_2)
         option = input("task 2: please choose your option and input: print or file ")
         if option == "print":
            print(rec_2)
@@ -59,7 +59,7 @@ def server_program():
                time.sleep(0.01)
                # receive the content after serialization
                seri_content = connection.recv(1024)
-               print(f"[RECV task 3] the serialization by",rec_filename, "is:", seri_content)
+               print(f"[RECV task 3] the serialization by <<",rec_filename, ">> is:", seri_content)
                # to check if the file is encrypted, if yes, it would receive the following message
                encrypt_msg=connection.recv(1024)
                print(f"[RECV task 3] Received from client, :  ", encrypt_msg)
@@ -72,7 +72,7 @@ def server_program():
                # to check only the encrypted file needs to be decrypted
                if option_decrypt == "yes":
                     dec_data = decrypt_file(rec_filename)
-                    print("decryption completed")
+                    print("decryption completed")  
                      #else:
                         #print("the file DOES NOT need to be decrypted!")  
                
@@ -93,13 +93,13 @@ def server_program():
                      file_data = load_json(rec_filename) 
                
                if deseri== "xml":
-                        #print(dec_data)
-                     if encrypt_msg =="encrypted":
-                        file_data = dec_data    ###################returns none???????????? need to check the funciton, if it returns the file's content
+                     if encrypt_msg ==b"encrypted":
+                        file_data = dec_data
+
                # choose to print or save on a file
                option = input("task 3: please choose your option and input: print or file ")
                if option == "print":
-                  print(f"[RECV task 3] after derialization by",rec_filename,"is:", file_data)
+                  print(f"[RECV task 3] after derialization by <<",rec_filename,">> is:", file_data)
                #file in current directory
                if option == "file":
                   check_file = Path('sever_received_infomation.txt') 

@@ -11,7 +11,7 @@ def creat_file(filename): #unittest passed
         check_file.touch(exist_ok =True)
     # Append and Read (‘a+’),Write and Read (‘w+’)
         with open(check_file,'w+') as creat_file:
-             creat_file.write('This text file is for demonstration purposes')
+             creat_file.write('This text file is for created by Group D')
              creat_file.close()
         return creat_file
 
@@ -51,11 +51,7 @@ def dict_2_xml(seri_content,seri_file):
     with open(seri_file,'w+') as file_to_read:
         file_to_read.write(dictionary_dict2xml)
 
-
-    
-
-
-    
+ 
 def send_text_to_server(text,socket_name,format_name):
         socket_name.sendall(text.encode(format_name))  #socket_client
 
@@ -77,7 +73,7 @@ def encrypt_file(filename):  #file_to_encrypt,file_encrypted
         encrypted = fernet.encrypt(original)  ##########
         # opening the file in write mode and writing the encrypted data
         with open(filename,'wb') as encrypted_file:
-            encrypted_file.write(encrypted)
+            return encrypted_file.write(encrypted)
        
 def decrypt_file(filename):
         with open('filekey.key', 'rb') as filekey:
@@ -92,7 +88,9 @@ def decrypt_file(filename):
         # opening the file in write mode and writing the decrypted data
         with open(filename, 'wb') as dec_file:
             dec_file.write(decrypted)
-        return dec_file
+        with open(filename,'r') as dec_file:
+            return dec_file.read()
+        
 
 def send_file_to_server(filename,socket_name,format_name):
         file = open(filename,"r")
@@ -126,14 +124,3 @@ def send_to_server(filename,socket_name,format_name):
         #file.close()
 
 
-
-
-
-
-
-    
-
-if __name__ == '__main__':
-
-    creat_dictionary()
-    encrypt_file()
