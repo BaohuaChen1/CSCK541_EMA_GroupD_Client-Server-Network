@@ -11,12 +11,12 @@ def creat_file(filename): #unittest passed
         check_file.touch(exist_ok =True)
     # Append and Read (‘a+’),Write and Read (‘w+’)
         with open(check_file,'w+') as creat_file:
-             creat_file.write('the task is to : Create a text file and send it to a server\n')
+             creat_file.write('This text file is for demonstration purposes')
              creat_file.close()
         return creat_file
 
-def creat_dictionary(fruit_names,item_prices): #unittest passed
-        seri_content = {fruit:price for (fruit, price) in zip(fruit_names, item_prices)}
+def creat_dictionary(key_item, value_item): #unittest passed
+        seri_content = {list1:list2 for (list1, list2) in zip(key_item, value_item)}
         print("dictionary content:   ", seri_content)
         return seri_content
 
@@ -96,6 +96,8 @@ def decrypt_file(filename):
 
 def send_file_to_server(filename,socket_name,format_name):
         file = open(filename,"r")
+        data_seri = file.read()
+        socket_name.send(data_seri.encode(format_name))
         #using the if statement, to check whether the client want to encrypt the file
         config = input("please choose encryption or not, input yes or no:    ")
         if config =="yes":
@@ -108,8 +110,8 @@ def send_file_to_server(filename,socket_name,format_name):
              encrypt_msg ="Not encrypted"
              socket_name.send(encrypt_msg.encode(format_name))
         #Sending the file data to the server
-        data = file.read()
-        socket_name.send(data.encode(format_name))
+        data_encry = file.read()
+        socket_name.send(data_encry.encode(format_name))
         #message = socket_name.recv(1024).decode(format_name) 
         #print(f"SERVER:{message}")    
         #file.close()
