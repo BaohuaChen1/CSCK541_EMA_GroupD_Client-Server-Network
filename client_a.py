@@ -35,9 +35,11 @@ if __name__ == '__main__':
     #to one of the following: binary, JSON and XML.
  
     # creat a new dictionary
-    fruit_names = ["apple", "banana", "cherry", "pear", "avocado"]
-    item_prices = [100, 50, 150, 80, 120]
-    dic = creat_dictionary(fruit_names,item_prices)
+    key_item  = ["name", "subject", "project"]
+    value_item = ['TeamD', 'SoftwareDevelopment', "client server network"]
+    dic = creat_dictionary(key_item, value_item)
+
+    print('This dictionary is for demonstration purposes:')
 
    
     while True:

@@ -57,6 +57,9 @@ def server_program():
                rec_filename = rec_msg
                print(f"[RECV task 3] Received the filename, the filename is:", rec_filename)
                time.sleep(0.01)
+               # receive the content after serialization
+               seri_content = connection.recv(1024)
+               print(f"[RECV task 3] the serialization by",rec_filename, "is:", seri_content)
                # to check if the file is encrypted, if yes, it would receive the following message
                encrypt_msg=connection.recv(1024)
                print(f"[RECV task 3] Received from client, :  ", encrypt_msg)
@@ -96,7 +99,7 @@ def server_program():
                # choose to print or save on a file
                option = input("task 3: please choose your option and input: print or file ")
                if option == "print":
-                  print(file_data)
+                  print(f"[RECV task 3] after derialization by",rec_filename,"is:", file_data)
                #file in current directory
                if option == "file":
                   check_file = Path('sever_received_infomation.txt') 
