@@ -39,7 +39,7 @@ if __name__ == '__main__':
     value_item = ['TeamD', 'SoftwareDevelopment', "client server network"]
     dic = creat_dictionary(key_item, value_item)
 
-    print('This dictionary is for demonstration purpose:')
+    print('This dictionary is for demonstration purpose:', dic)
 
    
     while True:

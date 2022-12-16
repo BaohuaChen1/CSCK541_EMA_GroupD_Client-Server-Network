@@ -44,7 +44,7 @@ def server_program():
               creat_file.write(str(rec_2))
               print("file created!, please check the file name: sever_received_infomation")
               creat_file.close()
-        # receive the task 3:
+        #  the task 3:
 
         while True:
             rec_msg = connection.recv(1024).decode(format)  ############### if the client send the file name ,then it wouldn't execute the following command
@@ -57,6 +57,7 @@ def server_program():
                rec_filename = rec_msg
                print(f"[RECV task 3] Received the filename, the filename is:", rec_filename)
                time.sleep(0.01)
+
                # receive the content after serialization
                seri_content = connection.recv(1024)
                print(f"[RECV task 3] the serialization by <<",rec_filename, ">> is:", seri_content)
@@ -117,16 +118,3 @@ def server_program():
 if __name__ == '__main__':
     server_program()
     
-
-'''
-               # decrypt the file 
-               option_decrypt = input("Do you need to decrypt the file? please input yes or no ")
-               ################# if it's not decrypted, then input yes, it cannto decry the file.
-               if option_decrypt == "yes":        
-                     # to check only the encrypted file needs to be decrypted
-                     if encrypt_msg =="encrypted":
-                        dec_data = decrypt_file(rec_filename)
-                        print("decryption completed")
-                     else:
-                        print("the file DOES NOT need to be decrypted!")  
-'''

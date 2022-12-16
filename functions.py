@@ -23,7 +23,7 @@ def creat_dictionary(key_item, value_item): #unittest passed
 def serialize(seri_content,seri_file):
     file_to_write = open(seri_file, "wb")
     pickle.dump(seri_content,file_to_write)
-    file_to_write.close()
+    #file_to_write.close()
 
         
 def deserialize(seri_content):
@@ -95,7 +95,7 @@ def decrypt_file(filename):
 def send_file_to_server(filename,socket_name,format_name):
         file = open(filename,"r")
         data_seri = file.read()
-        socket_name.send(data_seri.encode(format_name))
+        socket_name.send(data_seri)
         #using the if statement, to check whether the client want to encrypt the file
         config = input("please choose encryption or not, input yes or no:    ")
         if config =="yes":
@@ -109,7 +109,7 @@ def send_file_to_server(filename,socket_name,format_name):
              socket_name.send(encrypt_msg.encode(format_name))
         #Sending the file data to the server
         data_encry = file.read()
-        socket_name.send(data_encry.encode(format_name))
+        socket_name.send(data_encry)
         #message = socket_name.recv(1024).decode(format_name) 
         #print(f"SERVER:{message}")    
         #file.close()
