@@ -1,14 +1,10 @@
 
 import os
 from pathlib import Path
-import pickle
-import json
 from dict2xml import dict2xml
 from cryptography.fernet import Fernet
 from functions import creat_file,creat_dictionary,encrypt_file,decrypt_file,serialize,deserialize
-import pickle
 import unittest
-import socket
 
 
 class Test(unittest.TestCase):
@@ -34,7 +30,7 @@ class Test(unittest.TestCase):
 
         # test the outcome of serialization and deserialization
     def test_serialization_deserialization(self):    
-        mock_dict = {'name': "steven", 'sex': "male"}
+        mock_dict = {'name': 'TeamD', 'subject': 'SoftwareDevelopment', 'project': 'client server network'}
         seri_file = "test_dictionary.pickle"
         # to serialize the mock dictionary first
         serialize(mock_dict, seri_file)
@@ -73,9 +69,6 @@ class Test(unittest.TestCase):
         # to check if the content of file after decryption equals the orignial file
         self.assertEqual(output,original)
         print('unittest: encryption and decryption, passed')
-    
-
-
 
 if __name__ == '__main__':
     unittest.main()
