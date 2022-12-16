@@ -2,7 +2,7 @@ import socket
 from pathlib import Path
 from cryptography.fernet import Fernet
 import client_a
-import pickle
+import sys
 import time
 from functions import decrypt_file,deserialize,load_json,creat_file
 
@@ -26,8 +26,12 @@ def server_program():
         print("Got a connection from %s" % str(address))
 
         # receive the task 1:
-        rec_1 = connection.recv(1024)
-        print("receive from task 1:", rec_1)
+        try :
+            rec_1 = connection.recv(1024)
+            print("receive from task 1:", rec_1)
+        except socket.error:
+            print("receiving data error %s" % socket.error)
+            sys.exit(1)
 
         # receive the task 2:
         rec_2 = connection.recv(1024)

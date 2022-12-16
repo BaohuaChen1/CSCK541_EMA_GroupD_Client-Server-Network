@@ -93,7 +93,7 @@ def decrypt_file(filename):
         
 
 def send_file_to_server(filename,socket_name,format_name):
-        file = open(filename,"r")
+        file = open(filename,"rb")
         data_seri = file.read()
         socket_name.send(data_seri)
         #using the if statement, to check whether the client want to encrypt the file

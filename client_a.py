@@ -3,23 +3,36 @@ from pathlib import Path
 from dict2xml import dict2xml
 from cryptography.fernet import Fernet
 from functions import creat_dictionary,serialize,dump_json,dict_2_xml,send_text_to_server,send_file_to_server,creat_file,send_to_server
-
+import sys
 
 if __name__ == '__main__':
 
     host = socket.gethostname()  # as both code is running on same pc
     port = 5050  # socket server port number
     #Staring a TCP socket
-    socket_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)  # instantiate
+    try:
+        socket_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)  # instantiate
+    except socket.error:
+        print("Creating socket error: %s" % socket.error)
+        sys.exit(1)
     # connecting to the server
-    socket_client.connect((host, port))  # connect to the server
+    try:
+        socket_client.connect((host, port))
+    except socket.gaierror:
+        print("address related error: %s" % socket.gaierror) 
+        sys.exit(1)
+   
     format = "utf-8"
 
     # TASK NUMBER ONE
     # the task is to input a message from the client and send to the server
     # and the server should have an option to choose from print and to creat a file
-    message = input("task 1: please input the content you want to send to ther server>>> ")
-    socket_client.send(message.encode(format))
+    try:
+         message = input("task 1: please input the content you want to send to ther server>>> ")
+         socket_client.send(message.encode(format))
+    except socket.error:
+         print ("sending message error: %s" % socket.error)
+         sys.exit(1)
 
     # TASK NUMBER TWO
     # the task is to creat a text file from the client and send to the server
@@ -35,6 +48,8 @@ if __name__ == '__main__':
     #to one of the following: binary, JSON and XML.
  
     # creat a new dictionary
+    config = input("task 3: Do you want to proceed? Please type Yes") 
+    
     key_item  = ["name", "subject", "project"]
     value_item = ['TeamD', 'SoftwareDevelopment', "client server network"]
     dic = creat_dictionary(key_item, value_item)
@@ -71,7 +86,7 @@ if __name__ == '__main__':
             send_file_to_server(file_name,socket_client,format)
          if config == "exit":
             send_text_to_server("exit",socket_client,format)#send the text of "exit" to the server
-            socket_client.close()
+            
             break
          continue   # to input the format of serialization
 
