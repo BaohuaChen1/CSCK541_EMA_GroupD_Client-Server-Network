@@ -6,21 +6,21 @@ from functions import creat_dictionary,serialize,dump_json,dict_2_xml,send_text_
 import sys
 
 if __name__ == '__main__':
-
-    host = socket.gethostname()  # as both code is running on same pc
+    
+    host = socket.gethostname()   # get local machine name
     port = 5050  # socket server port number
-    #Staring a TCP socket
-    try:
-        socket_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)  # instantiate
+    
+    try: # Try and Except statement
+        socket_client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)  # create a socket object,socket_family: IPv4,socket_type:SOCK_STREAM
     except socket.error:
         print("Creating socket error: %s" % socket.error)
-        sys.exit(1)
-    # connecting to the server
+        sys.exit(1) #there was some errors and that is why the program is exitings
+    # bind to the port
     try:
-        socket_client.connect((host, port))
+        socket_client.connect((host, port)) # connection to hostname on the port.
     except socket.gaierror:
         print("address related error: %s" % socket.gaierror) 
-        sys.exit(1)
+        sys.exit(1) 
    
     format = "utf-8"
 
@@ -45,11 +45,11 @@ if __name__ == '__main__':
     # TASK NUMBER THREE
     #Create a dictionary, populate it, serialize it and send it to a server,
     #With the dictionary, the user should be able to set the pickling format 
-    #to one of the following: binary, JSON and XML.
+    #to one of the following: pickle, JSON and XML.
  
     # creat a new dictionary
     config = input("task 3: Do you want to proceed? Please type Yes") 
-    
+    # initiate the keys and values
     key_item  = ["name", "subject", "project"]
     value_item = ['TeamD', 'SoftwareDevelopment', "client server network"]
     dic = creat_dictionary(key_item, value_item)
@@ -59,34 +59,39 @@ if __name__ == '__main__':
    
     while True:
 
-         formats = ['binary', 'json', 'xml',"exit"]
+         formats = ['pickle', 'json', 'xml',"exit"]
     
          while True:
-               config = input("task 3: please input the method of serialization: binary,json, xml, or exit:")    
+               config = input("task 3: please input the method of serialization: pickle,json, xml, or exit:")    
                if config in formats:
                   break  
                else:
-                  print("plese input the correct formats:")
+                  # if input contens not in the formats [] list
+                  print("ERROR, plese input the correct formats:")
                continue
 
-         if config =="binary":
-            file_name ="dictionary_binary.pickle"  #define the file name
+         if config =="pickle":
+            file_name ="dictionary_pickle.pickle"  #define the file name
             send_text_to_server(file_name,socket_client,format) #send the fileanme to the server
             serialize(seri_file=file_name, seri_content=dic) # serialize the file with pickle
-            send_file_to_server(file_name,socket_client,format)  # send the file to the server
+            # send the file to the server
+            # !!!!! Inside the send_file_to_server, there is a option to "ENCRYPTION" from the functions.py !!!!!
+            send_file_to_server(file_name,socket_client,format)  
          if config =="json":
             file_name ="dictionary_json.json"
             send_text_to_server(file_name,socket_client,format) #send the fileanme to the server
             dump_json(seri_file=file_name,seri_content=dic) # serialize the file with json
+            # !!!!! Inside the send_file_to_server, there is a option to "ENCRYPTION" from the functions.py !!!!!
             send_file_to_server(file_name,socket_client,format)
          if config =="xml":
             file_name ="dictionary_xml.xml"
             send_text_to_server(file_name,socket_client,format)#send the fileanme to the server
             dict_2_xml(seri_file=file_name,seri_content=dic)  # serialize the file with xml
+            # !!!!! Inside the send_file_to_server, there is a option to "ENCRYPTION" from the functions.py !!!!!
             send_file_to_server(file_name,socket_client,format)
          if config == "exit":
             send_text_to_server("exit",socket_client,format)#send the text of "exit" to the server
-            
+            socket_client.close()
             break
          continue   # to input the format of serialization
 

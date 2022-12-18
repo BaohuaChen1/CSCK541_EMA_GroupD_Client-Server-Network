@@ -10,12 +10,12 @@ def creat_file(filename): #unittest passed
     # will create a new file, if it exists will append text
         check_file.touch(exist_ok =True)
     # Append and Read (‘a+’),Write and Read (‘w+’)
-        with open(check_file,'w+') as creat_file:
+        with open(check_file,'a+') as creat_file:
              creat_file.write('This text file is for created by Group D')
              creat_file.close()
         return creat_file
 
-def creat_dictionary(key_item, value_item): #unittest passed
+def creat_dictionary(key_item, value_item): 
         seri_content = {list1:list2 for (list1, list2) in zip(key_item, value_item)}
         print("dictionary content:   ", seri_content)
         return seri_content
@@ -56,60 +56,62 @@ def send_text_to_server(text,socket_name,format_name):
         socket_name.sendall(text.encode(format_name))  #socket_client
 
 def encrypt_file(filename):  #file_to_encrypt,file_encrypted
-        #generating the keys:
+        #generate the keys:
         key = Fernet.generate_key() ##########
         # string the key in a file
         with open('filekey.key', 'wb') as filekey:
             filekey.write(key)
-        # opening the key
+        # open the key
         with open('filekey.key', 'rb') as filekey:
             key = filekey.read()  
         # using the generated key    
-        fernet = Fernet(key)   ##########
-        # opening the original file to encrypt
+        fernet = Fernet(key)   
+        # open the original file to encrypt
         with open(filename, 'rb') as file:
             original = file.read()
-        # encrypting the file
-        encrypted = fernet.encrypt(original)  ##########
-        # opening the file in write mode and writing the encrypted data
+        # encrypt the file
+        encrypted = fernet.encrypt(original)  
+        # opening the file in write mode, and writing the encrypted data
         with open(filename,'wb') as encrypted_file:
             return encrypted_file.write(encrypted)
        
 def decrypt_file(filename):
+        # open the key file
         with open('filekey.key', 'rb') as filekey:
             key = filekey.read()
         # using the key
         fernet = Fernet(key)
-        # opening the encrypted file
+        # open the encrypted file
         with open(filename , 'rb') as enc_file:
             encrypted = enc_file.read()
-        # decrypting the file
+        # decrypt the file
         decrypted = fernet.decrypt(encrypted) 
-        # opening the file in write mode and writing the decrypted data
+        # open the file in write mode, and writing the decrypted data
         with open(filename, 'wb') as dec_file:
             dec_file.write(decrypted)
+        # read the file
         with open(filename,'r') as dec_file:
             return dec_file.read()
         
 
 def send_file_to_server(filename,socket_name,format_name):
         file = open(filename,"rb")
+        # to open the file and send the orignial file, which is after running such as pickle.dumps(), json.dump(),or dict2xml, 
+        # but without encrytion
         data_seri = file.read()
         socket_name.send(data_seri)
         #using the if statement, to check whether the client want to encrypt the file
         config = input("please choose encryption or not, input yes or no:    ")
         if config =="yes":
-             encrypt_file(filename)
-             #messge ="the file is encrypted"
-             #socket_client.send(message.encode(format))
-             encrypt_msg ="encrypted"
-             socket_name.send(encrypt_msg.encode(format_name))
+             encrypt_file(filename) # to encrypt the file 
+             encrypt_msg ="encrypted" #create this message
+             socket_name.send(encrypt_msg.encode(format_name)) # to tell the server this file is encrypted
         if config =="no":
              encrypt_msg ="Not encrypted"
-             socket_name.send(encrypt_msg.encode(format_name))
-        #Sending the file data to the server
-        data_encry = file.read()
-        socket_name.send(data_encry)
+             socket_name.send(encrypt_msg.encode(format_name)) # to tell the server this file is not encrypted
+        #Sending the final file to the server, which may conatains the encrypted contents.
+        #data_encry = file.read()
+        socket_name.send(data_seri)
         #message = socket_name.recv(1024).decode(format_name) 
         #print(f"SERVER:{message}")    
         #file.close()
