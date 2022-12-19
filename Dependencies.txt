@@ -1,0 +1,10 @@
+unittest  == 3.7
+visualstudio == 1.73.1
+dict2xml == 1.7.2
+cryptography== 38.0.4 
+paramiko == 2.12.0
+pickle == 2.0
+json == 1.6.3
+socket == 1.0.0
+pathlib == 1.0.1
+
