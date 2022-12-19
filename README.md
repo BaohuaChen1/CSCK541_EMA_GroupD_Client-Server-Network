@@ -14,7 +14,7 @@
 
 ## Description
 
-The building of a server network project is the final assignment of the software development module from the University of Liverpool and performed in groups. The software development module provided the comprehensive basics of python. Using what learnt in this module,  divided the tasks and proceeded with server development in the project. 
+A simple client-network server in Python has been developed adding different functionalities as message sending, creation of text files, serializing and deserializing dictionaries according to different formats (JSON, XML, or binary) and encrypting and decrypting some content. Additionally, some unit tests have been created to validate the adequate performance of the different functions.
 
 ## Technologies
 
@@ -31,25 +31,43 @@ pip install dict2xml
 pip install cryptography
 ```
 ```bash
+pip install pickle
+```
+```bash
 pip install paramiko
 ```
 ```bash
-pip install functions
+pip install json
+```
+```bash
+pip install socket
+```
+```bash
+pip install pathlib 
+```
+```bash
+pip install sys
 ```
 
-## Project
-This project consists of 5 different tasks.
 
-1. Establish a simple server network.
-2. Create a dictionary, populate it, serialize it and send it to a server.
-3. Create a text file and send it to a server.
-4. Unit Test
+## Project
+This project consists of 4 different Modules(server_a.py client_a.py unittest.py functions.py).
+
+The modules server_a.py client_a.py and functions.py interact althogether to perform the following tasks
+
+1. Send Message to the server.
+2. Create a Text File
+3. Create a dictionary, populate it, serialize it. [1]
+4. Encryption and Decryption of files [2]
+
+The unittest.py module is used for. comparing the results of the functions as expected.
+
 5. Create a reports including Readme.md and requirements.txt
 
 Condition:
 
-* Choose format: binary, JSON or XML.
-* Need to have the option to encrypt the text in a text file.
+[1] Choose format: binary, JSON or XML.
+[2] Need to have the option to encrypt and decrypt .
 * The server should have a configurable option to print the contents of the sent items to the screen and or to a file.
 * The server need to be able to handle encrypted contents.
 * Written in PEP standard.
@@ -59,3 +77,4 @@ Condition:
 * Luis Ricardo Atristain [Github](https://github.com/SoftDevGroupD)
 * Baohua Chen [Github](https://github.com/stevenchan88)
 * Kentaro Fujita [Github](https://github.com/Ken-juuli)
+
